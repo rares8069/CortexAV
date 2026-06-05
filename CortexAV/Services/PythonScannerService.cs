@@ -26,13 +26,13 @@ namespace CortexAV.Services
             try
             {
 
-                var requestData = new { filePath = filePath };
-                var jsonContent = new StringContent ( JsonSerializer.Serialize(requestData), Encoding.UTF8, "application/json");
+                var requestData = new { file_path = filePath };
+                var jsonContent = new StringContent ( System.Text.Json.JsonSerializer.Serialize(requestData), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await _httpClient.PostAsync(_pythonApiURL, jsonContent);
                 response.EnsureSuccessStatusCode();
 
                 string responseBody = await response.Content.ReadAsStringAsync();
-                ScanResponse scanResult = JsonSerializer.Deserialize<ScanResponse>(responseBody);
+                ScanResponse scanResult = System.Text.Json.JsonSerializer.Deserialize<ScanResponse>(responseBody);
 
                 return scanResult;
             }

@@ -1,5 +1,5 @@
 ﻿CortexAV
-1.0.0.0
+
 
 winexe
 C#
@@ -12,9 +12,9 @@ TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR
 C:\Users\tigan\Documents\GitHub\Licenta\CortexAV\CortexAV\App.xaml
 11407045341
 
-8902965727
+6-717722669
 198-552479049
 MainWindow.xaml;
 
-True
+False
 

@@ -1,8 +1,11 @@
 ﻿<Window x:Class="CortexAV.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2000/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2000/xaml"
-        Title="CortexAV - Zero-Day Malware Detector" 
-        Height="550" Width="800"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CortexAV"
+        mc:Ignorable="d"
+        Title="CortexAV - Zero-Day Malware Detector" Height="550" Width="800"
         WindowStartupLocation="CenterScreen"
         Background="#121212" Foreground="White">
 

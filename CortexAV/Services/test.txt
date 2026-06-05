@@ -1,0 +1,30 @@
+     {
+            // Asigură-te că undeva sus în clasă, _pythonApiURL este definit EXACT așa:
+            // private readonly string _pythonApiURL = "http://127.0.0.1:5000/scan";
+
+            try
+            {
+                // Mapăm cheia exact cum o așteaptă Python (file_path în loc de filePath)
+                var requestData = new { file_path = filePath };
+
+                var jsonContent = new StringContent(
+                    System.Text.Json.JsonSerializer.Serialize(requestData),
+                    Encoding.UTF8,
+                    "application/json"
+                );
+
+                // Trimitem request-ul către endpoint-ul /scan
+                HttpResponseMessage response = await _httpClient.PostAsync(_pythonApiURL, jsonContent);
+
+                // Dacă racheta dă 404, linia de mai jos va arunca o excepție clară pe care o vezi în UI
+                response.EnsureSuccessStatusCode();
+
+                string responseBody = await response.Content.ReadAsStringAsync();
+                ScanResponse scanResult = System.Text.Json.JsonSerializer.Deserialize<ScanResponse>(responseBody);
+
+                return scanResult;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Eroare la comunicarea cu motorul AI: {ex.Message}");
+            }
