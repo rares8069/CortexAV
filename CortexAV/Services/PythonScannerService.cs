@@ -13,11 +13,11 @@ namespace CortexAV.Services
     public class PythonScannerService
     {
         private readonly string _pythonApiURL = "http://127.0.0.1:5000/scan";
-        private readonly HttpClient _httpClient;
+        private static readonly HttpClient _httpClient = new HttpClient();
 
         public PythonScannerService() 
         {
-            _httpClient = new HttpClient();
+            
 
         }
 

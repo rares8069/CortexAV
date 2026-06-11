@@ -1,30 +1,185 @@
-     {
-            // Asigură-te că undeva sus în clasă, _pythonApiURL este definit EXACT așa:
-            // private readonly string _pythonApiURL = "http://127.0.0.1:5000/scan";
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using CortexAV.Core;
+using CortexAV.Models;
 
+namespace CortexAV.Services
+{
+    public class RealTimeMonitor
+    {
+        private readonly PythonScannerService _scannerService;
+        private readonly Dictionary<string, FileSystemWatcher> _watchers;
+        private readonly string[] _targetExtensions = { ".exe", ".dll", ".sys", ".msi", ".bat", ".ps1", ".cortex" };
+
+        public event EventHandler<ScanRecord> OnFileScanned;
+
+        // --- SISTEMUL DE COADĂ (QUEUE) ---
+        private readonly ConcurrentQueue<string> _scanQueue;
+        private readonly CancellationTokenSource _cancellationTokenSource;
+
+        public RealTimeMonitor(PythonScannerService scannerService)
+        {
+            _scannerService = scannerService;
+            _watchers = new Dictionary<string, FileSystemWatcher>(StringComparer.OrdinalIgnoreCase);
+            
+            // Inițializăm coada și token-ul de anulare
+            _scanQueue = new ConcurrentQueue<string>();
+            _cancellationTokenSource = new CancellationTokenSource();
+
+            // Pornim "Muncitorul" (Consumer-ul) în fundal, o singură dată!
+            Task.Run(() => ProcessQueueAsync(_cancellationTokenSource.Token));
+        }
+
+        public void SyncWithStorage()
+        {
+            StopAll();
+            foreach (var folderPath in StorageManager.MonitoredFolders)
+            {
+                StartMonitoring(folderPath);
+            }
+        }
+
+        public void StartMonitoring(string directoryPath)
+        {
+            if (!Directory.Exists(directoryPath) || _watchers.ContainsKey(directoryPath)) return;
+
+            var watcher = new FileSystemWatcher(directoryPath)
+            {
+                NotifyFilter = NotifyFilters.FileName | NotifyFilters.CreationTime,
+                IncludeSubdirectories = false 
+            };
+
+            watcher.Created += Watcher_Created;
+            watcher.EnableRaisingEvents = true;
+            _watchers[directoryPath] = watcher;
+        }
+
+        public void StopMonitoring(string directoryPath)
+        {
+            if (_watchers.TryGetValue(directoryPath, out var watcher))
+            {
+                watcher.EnableRaisingEvents = false;
+                watcher.Created -= Watcher_Created;
+                watcher.Dispose();
+                _watchers.Remove(directoryPath);
+            }
+        }
+
+        public void StopAll()
+        {
+            foreach (var watcher in _watchers.Values)
+            {
+                watcher.EnableRaisingEvents = false;
+                watcher.Created -= Watcher_Created;
+                watcher.Dispose();
+            }
+            _watchers.Clear();
+            
+            // Dacă dorim să oprim definitiv și procesorul cozii (la închiderea aplicației)
+            // _cancellationTokenSource.Cancel(); 
+        }
+
+        // ==========================================
+        // 1. PRODUCER-UL (Adaugă rapid în coadă)
+        // ==========================================
+        private void Watcher_Created(object sender, FileSystemEventArgs e)
+        {
+            if (Directory.Exists(e.FullPath)) return;
+            string ext = Path.GetExtension(e.FullPath).ToLowerInvariant();
+            if (!_targetExtensions.Contains(ext)) return;
+
+            // Doar îl punem în coadă și eliberăm thread-ul instant!
+            _scanQueue.Enqueue(e.FullPath);
+            Console.WriteLine($"[RealTime] S-a adăugat la coadă: {e.Name} (Total în așteptare: {_scanQueue.Count})");
+        }
+
+        // ==========================================
+        // 2. CONSUMER-UL (Procesează metodic, unul câte unul)
+        // ==========================================
+        private async Task ProcessQueueAsync(CancellationToken cancellationToken)
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                // Dacă avem fișiere în coadă, extragem primul
+                if (_scanQueue.TryDequeue(out string filePath))
+                {
+                    await ProcessSingleFileAsync(filePath);
+                }
+                else
+                {
+                    // Dacă coada e goală, muncitorul "doarme" o jumătate de secundă ca să nu consume procesorul
+                    await Task.Delay(500, cancellationToken);
+                }
+            }
+        }
+
+        // Logica grea a fost mutată aici, executată doar pe fișierul extras
+        private async Task ProcessSingleFileAsync(string filePath)
+        {
             try
             {
-                // Mapăm cheia exact cum o așteaptă Python (file_path în loc de filePath)
-                var requestData = new { file_path = filePath };
+                // 1. Așteptăm eliberarea fișierului
+                bool isReady = await WaitForFileAsync(filePath);
+                if (!isReady) return;
 
-                var jsonContent = new StringContent(
-                    System.Text.Json.JsonSerializer.Serialize(requestData),
-                    Encoding.UTF8,
-                    "application/json"
-                );
+                var fileInfo = new FileInfo(filePath);
 
-                // Trimitem request-ul către endpoint-ul /scan
-                HttpResponseMessage response = await _httpClient.PostAsync(_pythonApiURL, jsonContent);
+                // 2. Calcul Hash pe fundal
+                string hash = await Task.Run(() => FileHasher.CalculateSHA256(filePath));
+                
+                // 3. Verificăm Whitelist
+                if (hash != null && StorageManager.IsFileAllowed(fileInfo.Name, fileInfo.Length, hash))
+                {
+                    Console.WriteLine($"[RealTime] Fișier exceptat: {fileInfo.Name}");
+                    return; 
+                }
 
-                // Dacă racheta dă 404, linia de mai jos va arunca o excepție clară pe care o vezi în UI
-                response.EnsureSuccessStatusCode();
+                // 4. Scanare AI
+                ScanResponse response = await _scannerService.AnalyzeFileAsync(filePath);
 
-                string responseBody = await response.Content.ReadAsStringAsync();
-                ScanResponse scanResult = System.Text.Json.JsonSerializer.Deserialize<ScanResponse>(responseBody);
+                // 5. Salvare în istoric
+                var record = new ScanRecord
+                {
+                    ScanDate = DateTime.Now,
+                    FileName = fileInfo.Name,
+                    FilePath = fileInfo.FullName,
+                    FileType = fileInfo.Extension,
+                    Verdict = response.Verdict,
+                    ConfidenceScore = response.ConfidenceScore
+                };
+                StorageManager.SaveHistory(record);
 
-                return scanResult;
+                // 6. Alertare Interfață
+                OnFileScanned?.Invoke(this, record);
             }
             catch (Exception ex)
             {
-                throw new Exception($"Eroare la comunicarea cu motorul AI: {ex.Message}");
+                Console.WriteLine($"[RealTime] Eroare la scanarea secvențială: {ex.Message}");
             }
+        }
+
+        private async Task<bool> WaitForFileAsync(string filePath, int maxRetries = 10, int delayMs = 500)
+        {
+            for (int i = 0; i < maxRetries; i++)
+            {
+                try
+                {
+                    using (FileStream fs = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.None))
+                    {
+                        return true;
+                    }
+                }
+                catch (IOException)
+                {
+                    await Task.Delay(delayMs);
+                }
+            }
+            return false;
+        }
+    }
+}

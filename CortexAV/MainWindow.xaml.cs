@@ -1,5 +1,6 @@
 ﻿using CortexAV.Models;
 using CortexAV.Services;
+using CortexAV.Core;
 using System;
 using System.IO;
 using System.Text;
@@ -14,6 +15,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static System.Net.Mime.MediaTypeNames;
+using System.IO.Enumeration;
+using System.Linq;
+using Microsoft.Win32;
+using System.Collections.ObjectModel;
 
 namespace CortexAV
 {
@@ -25,12 +30,35 @@ namespace CortexAV
 
         private readonly PythonScannerService _scannerService;
         private string _currentFilePath = string.Empty;
+        private readonly RealTimeMonitor _realTimeMonitor;
+
+        private ObservableCollection<string> _scanQueueUI = new ObservableCollection<string>();
+        private ObservableCollection<string> _safeFilesUI= new ObservableCollection<string>();
+        private ObservableCollection<string> _malwareFilesUI=new ObservableCollection<string>();
+        private bool _isBatchScanning = false;
 
         public MainWindow()
         {
-            InitializeComponent();
-            _scannerService = new PythonScannerService();
 
+            InitializeComponent();
+            StorageManager.Initialize();
+            _scannerService = new PythonScannerService();
+            _realTimeMonitor = new RealTimeMonitor(_scannerService);
+            _realTimeMonitor.OnFileScanned += RealTimeMonitor_OnFileScanned;
+            _realTimeMonitor.SyncWithStorage();
+            ListQueue.ItemsSource= _scanQueueUI;
+            ListSafe.ItemsSource    = _safeFilesUI;
+            ListMalware.ItemsSource = _malwareFilesUI;
+            //RefreshDataGrids();
+        }
+
+        private void RealTimeMonitor_OnFileScanned(object sender, ScanRecord record)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                RefreshDataGrids();
+                MessageBox.Show($"Real-Time alert\n Detected {record.FileName}\nVerdict:{record.Verdict} ({record.ConfidenceScore:F2}%)", "CortexAV Monitor", MessageBoxButton.OK, MessageBoxImage.Information);
+            });
         }
 
         private void DropZone_DragEnter(object sender, DragEventArgs e)
@@ -84,6 +112,344 @@ namespace CortexAV
 
         }
 
+        private async void AllowThreat_Click(object sender, RoutedEventArgs e)
+        {
+
+            if(string.IsNullOrEmpty(_currentFilePath)|| !File.Exists(_currentFilePath)) return;
+
+            try
+            {
+                var fileInfo=new FileInfo(_currentFilePath);
+                string hash = await Task.Run(() => FileHasher.CalculateSHA256(_currentFilePath));
+
+                if (hash != null)
+                {
+                    var allowedThreat = new AllowedThreat
+                    {
+                        FileName = fileInfo.Name,
+                        FileSize = fileInfo.Length,
+                        FileHash = hash,
+                        AddedDate = DateTime.Now
+                    };
+
+                    StorageManager.SaveToWhiteList(allowedThreat);
+                    MessageBox.Show("File was succesfully added in WhiteList");
+
+                    ResetInterfata();
+                }
+
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show($"error adding in whitelist {ex.Message}");
+            }
+
+        }
+
+        private void BtnMenuDashboard_Click(object sender, RoutedEventArgs e)
+        {
+            ViewDashboard.Visibility = Visibility.Visible;
+            ViewHistory.Visibility = Visibility.Collapsed;
+            ViewWhitelist.Visibility = Visibility.Collapsed;
+            ViewMonitor.Visibility = Visibility.Collapsed;
+            ViewCustomScan.Visibility = Visibility.Collapsed;
+            //RefreshDataGrids();
+
+        }
+
+        private void BtnMenuHistory_Click(object sender, RoutedEventArgs e)
+        {
+            ViewDashboard.Visibility = Visibility.Collapsed;
+            ViewHistory.Visibility = Visibility.Visible;
+            ViewWhitelist.Visibility = Visibility.Collapsed;
+            ViewMonitor.Visibility = Visibility.Collapsed;
+            ViewCustomScan.Visibility = Visibility.Collapsed;
+            RefreshDataGrids();
+        }
+
+        private void BtnMenuWhitelist_Click(object sender, RoutedEventArgs e)
+        {
+            ViewDashboard.Visibility = Visibility.Collapsed;
+            ViewHistory.Visibility = Visibility.Collapsed;
+            ViewWhitelist.Visibility = Visibility.Visible;
+            ViewMonitor.Visibility = Visibility.Collapsed;
+            ViewCustomScan.Visibility = Visibility.Collapsed;
+            RefreshDataGrids();
+        }
+
+        private void BtnMenuMonitor_Click(object sender, RoutedEventArgs e)
+        {
+
+            ViewDashboard.Visibility = Visibility.Collapsed;
+            ViewWhitelist.Visibility = Visibility.Collapsed;
+            ViewHistory.Visibility = Visibility.Collapsed;
+            ViewMonitor.Visibility = Visibility.Visible;
+            ViewCustomScan.Visibility = Visibility.Collapsed;
+            RefreshDataGrids();
+
+        }
+
+        private void BtnMenuCustomScan_Click(object sender, RoutedEventArgs e)
+        {
+            ViewDashboard.Visibility = Visibility.Collapsed;
+            ViewWhitelist.Visibility = Visibility.Collapsed;
+            ViewHistory.Visibility = Visibility.Collapsed;
+            ViewMonitor.Visibility = Visibility.Collapsed;
+            ViewCustomScan.Visibility = Visibility.Visible;
+            RefreshDataGrids();
+
+        }
+
+        private void RefreshDataGrids()
+        {
+            if (GridHistory != null)
+            {
+                GridHistory.ItemsSource = null;
+                GridHistory.ItemsSource = StorageManager.ScanHistory.ToArray().Reverse();
+
+            }
+
+            if (GridWhitelist != null)
+            {
+                GridWhitelist.ItemsSource = null;
+                GridWhitelist.ItemsSource = StorageManager.Whitelist.ToArray().Reverse();
+            }
+
+            if(ListFolders != null)
+            {
+                ListFolders.ItemsSource = null;
+                ListFolders.ItemsSource = StorageManager.MonitoredFolders;//.ToArray().Reverse();
+            }
+        }
+
+
+        private void BtnClearHistory_Click(object sender, RoutedEventArgs e)
+        {
+
+            var result = MessageBox.Show("Are you sure that you want to delete th history","Confirmare",MessageBoxButton.YesNo,MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                StorageManager.ClearHistory();
+                RefreshDataGrids();
+            }
+
+        }
+
+        private async void BtnAddWhitelist_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Title = "Add a file to the Whitelist",
+                Filter="executables (*.exe;*.dll;*.sys)|*.exe;*.dll;*.sys|All Files (*.*)|*.*"
+            };
+
+            if(openFileDialog.ShowDialog()== true)
+            {
+                string filePath=openFileDialog.FileName;
+                try
+                {
+                    var fileInfo = new FileInfo(filePath);
+                    string hash = await Task.Run(() => FileHasher.CalculateSHA256(filePath));
+
+                    if(hash != null)
+                    {
+
+                        if (StorageManager.Whitelist.Any(w => w.FileHash == hash)) 
+                        {
+                            MessageBox.Show("File already in whitelist");
+                            return;
+                        }
+
+                        var allowedThreat = new AllowedThreat
+                        {
+                            FileName=fileInfo.Name,
+                            FileSize=fileInfo.Length,
+                            FileHash=hash,
+                            AddedDate=DateTime.Now
+
+                        };
+
+                        StorageManager.SaveToWhiteList(allowedThreat);
+                        RefreshDataGrids();
+
+                    }
+
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("Error processing this file","Eroare", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                }
+            }
+        }
+
+        private void BtnRemoveWhitelist_Click(object sender, RoutedEventArgs e)
+        {
+
+            if(GridWhitelist.SelectedItem is AllowedThreat selectedThreat)
+            {
+                var result= MessageBox.Show("Are you sure that you want to eliminate this file","Confirm",MessageBoxButton.YesNo,MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    StorageManager.RemoveFromWhitelist(selectedThreat.FileHash);
+                    RefreshDataGrids();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a file","Caution",MessageBoxButton.OK,MessageBoxImage.Warning);
+            }
+
+        }
+
+       
+
+        private void BtnAddFolder_Click(object sender, RoutedEventArgs e)
+        {
+
+            var dialog = new Microsoft.Win32.OpenFolderDialog
+            {
+                Title="Select the folder that you want to protect"
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                string selectedPath = dialog.FolderName;
+                StorageManager.AddMonitoredFolder(selectedPath);
+                _realTimeMonitor.StartMonitoring(selectedPath);
+                RefreshDataGrids();
+            }
+
+        }
+
+        private void BtnRemoveFolder_Click(object sender, RoutedEventArgs e)
+        {
+            if(ListFolders.SelectedItem is string selectedFolder)
+            {
+                var result=MessageBox.Show("Are you sure that you want to remove this folder","Attention",MessageBoxButton.YesNo,MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes) {
+                    StorageManager.RemoveMonitoredFolder(selectedFolder);
+                    _realTimeMonitor.StopMonitoring(selectedFolder);
+                    RefreshDataGrids() ;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a folder", "Attention", MessageBoxButton.OK,MessageBoxImage.Warning);
+            }
+
+        }
+
+        private async void BtnSelectFilesToScan_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog
+            {
+                Multiselect =true,
+                Title="Select Files to scan ",
+                Filter="Executabile (*.exe;*.dll;*.sys)|*.exe;*.dll;*.sys|Toate fisierele(*.*)|*.*"
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+
+                BtnSelectFilesToScan.IsEnabled = false;
+                BtnSelectFilesToScan.Content = "Scanning..";
+
+                foreach(string filePath in dialog.FileNames)
+                {
+                    if (!_scanQueueUI.Contains(filePath))
+                    {
+                        _scanQueueUI.Add(filePath);
+                    }
+                }
+
+                await ProcessBatchQueueAsync();
+                //_isBatchScanning = true;
+                //Task.Run(() => ProcessBatchQueueAsync());
+                BtnSelectFilesToScan.IsEnabled = true;
+                BtnSelectFilesToScan.Content = "Select File(s)";
+
+            }
+        }
+       
+        private async Task ProcessBatchQueueAsync()
+        {
+            _isBatchScanning = true;
+            while (true)
+            {
+                string currentFile = null;
+                Dispatcher.Invoke(() =>
+                {
+                    if (_scanQueueUI.Count > 0) {
+                        currentFile = _scanQueueUI[0];
+                    }
+                }
+                );
+
+                if (currentFile == null) {
+                    break;
+                }
+
+                try
+                {
+                    var fileInfo = new FileInfo(currentFile);
+                    string hash = await Task.Run(() => FileHasher.CalculateSHA256(currentFile));
+
+                    bool isWhitelisted=(hash!=null&&StorageManager.IsFileAllowed(fileInfo.Name,fileInfo.Length,hash));
+                    ScanResponse response = null;
+
+                    if (!isWhitelisted)
+                    {
+
+                        response = await _scannerService.AnalyzeFileAsync(currentFile);
+                        var record = new ScanRecord
+                        {
+                            ScanDate=DateTime.Now,
+                            FileName= fileInfo.Name,
+                            FilePath    =fileInfo.FullName,
+                            FileType=fileInfo.Extension,
+                            Verdict=response.Verdict,
+                            ConfidenceScore=response.ConfidenceScore
+
+                        };
+                        StorageManager.SaveHistory(record);
+                    }
+
+                    Dispatcher.Invoke(()
+                        =>
+                    {
+                        _scanQueueUI.Remove(currentFile);
+                        string displayItem=fileInfo.Name;
+                        if(isWhitelisted)
+                        {
+                            _safeFilesUI.Add($"Fisier Exceptat {displayItem}");
+                        }else if(response!=null && response.Verdict == "Malware")
+                        {
+                            _malwareFilesUI.Add($"{displayItem}:{response.Verdict} ");
+                        }else
+                        {
+                            _safeFilesUI.Add($"{displayItem}: {response?.ConfidenceScore:F1}%");
+                        }
+                    }
+                        );
+
+                }
+                catch (Exception)
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        _scanQueueUI.Remove(currentFile);
+                        _malwareFilesUI.Add($"Error reading {System.IO.Path.GetFileName(currentFile)}");
+                    });
+                      
+                }
+
+
+            }
+
+            _isBatchScanning = false;
+        }
+
         private void AfiseazaRezultat(ScanResponse response)
         {
 
@@ -103,6 +469,18 @@ namespace CortexAV
                 TxtVerdict.Foreground = Brushes.LimeGreen;
                 ActionButtons.Visibility = Visibility.Collapsed;
             }
+
+            var fileInfo = new System.IO.FileInfo(_currentFilePath);
+            StorageManager.SaveHistory(new ScanRecord 
+            {
+
+                ScanDate = DateTime.Now,
+                FileName = fileInfo.Name,
+                FilePath=fileInfo.FullName,
+                FileType=fileInfo.Extension,
+                Verdict=response.Verdict,
+                ConfidenceScore=response.ConfidenceScore
+            });
 
         }
 

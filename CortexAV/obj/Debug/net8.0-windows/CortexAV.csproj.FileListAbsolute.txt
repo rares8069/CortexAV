@@ -18,3 +18,4 @@ C:\Users\tigan\Documents\GitHub\Licenta\CortexAV\CortexAV\obj\Debug\net8.0-windo
 C:\Users\tigan\Documents\GitHub\Licenta\CortexAV\CortexAV\obj\Debug\net8.0-windows\CortexAV.pdb
 C:\Users\tigan\Documents\GitHub\Licenta\CortexAV\CortexAV\obj\Debug\net8.0-windows\CortexAV.genruntimeconfig.cache
 C:\Users\tigan\Documents\GitHub\Licenta\CortexAV\CortexAV\obj\Debug\net8.0-windows\ref\CortexAV.dll
+C:\Users\tigan\Documents\GitHub\Licenta\CortexAV\CortexAV\obj\Debug\net8.0-windows\CortexAV.sourcelink.json
