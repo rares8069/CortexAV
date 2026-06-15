@@ -7,35 +7,51 @@
       "RelativeMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|solutionrelative:mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|c:\\users\\tigan\\documents\\github\\licenta\\cortexav\\cortexav\\models\\scanresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|solutionrelative:models\\scanresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|c:\\users\\tigan\\documents\\github\\licenta\\cortexav\\cortexav\\models\\storagemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|solutionrelative:models\\storagemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|c:\\users\\tigan\\documents\\github\\licenta\\cortexav\\cortexav\\services\\pythonscannerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|solutionrelative:services\\pythonscannerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|c:\\users\\tigan\\documents\\github\\licenta\\cortexav\\cortexav\\core\\realtimemonitor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|solutionrelative:core\\realtimemonitor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|c:\\users\\tigan\\documents\\github\\licenta\\cortexav\\cortexav\\services\\pythonenginemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|solutionrelative:services\\pythonenginemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|c:\\users\\tigan\\documents\\github\\licenta\\cortexav\\cortexav\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|c:\\users\\tigan\\documents\\github\\licenta\\cortexav\\cortexav\\core\\realtimemonitor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|solutionrelative:core\\realtimemonitor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|c:\\users\\tigan\\documents\\github\\licenta\\cortexav\\cortexav\\cortexav.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|solutionrelative:cortexav.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\tigan\\AppData\\Roaming\\CortexAV\\history.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|c:\\users\\tigan\\documents\\github\\licenta\\cortexav\\cortexav\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|solutionrelative:app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|c:\\users\\tigan\\documents\\github\\licenta\\cortexav\\cortexav\\core\\filehasher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|solutionrelative:core\\filehasher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|c:\\users\\tigan\\documents\\github\\licenta\\cortexav\\cortexav\\models\\storagemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|solutionrelative:models\\storagemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|c:\\users\\tigan\\documents\\github\\licenta\\cortexav\\cortexav\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|solutionrelative:app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|c:\\users\\tigan\\documents\\github\\licenta\\cortexav\\cortexav\\services\\test.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|solutionrelative:services\\test.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|c:\\users\\tigan\\documents\\github\\licenta\\cortexav\\cortexav\\cortexav.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|solutionrelative:cortexav.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\tigan\\AppData\\Roaming\\CortexAV\\history.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|c:\\users\\tigan\\documents\\github\\licenta\\cortexav\\cortexav\\models\\scanresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ACAFB11A-137E-4828-7C85-F23333899DD1}|CortexAV.csproj|solutionrelative:models\\scanresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -45,57 +61,85 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "test.txt",
-              "DocumentMoniker": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\Services\\test.txt",
-              "RelativeDocumentMoniker": "Services\\test.txt",
-              "ToolTip": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\Services\\test.txt",
-              "RelativeToolTip": "Services\\test.txt",
-              "ViewState": "AgIAAHsAAAAAAAAAAAAYwI4AAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2026-06-11T15:08:42.419Z",
+              "Title": "history.json",
+              "DocumentMoniker": "C:\\Users\\tigan\\AppData\\Roaming\\CortexAV\\history.json",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\AppData\\Roaming\\CortexAV\\history.json",
+              "ToolTip": "C:\\Users\\tigan\\AppData\\Roaming\\CortexAV\\history.json",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\AppData\\Roaming\\CortexAV\\history.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-06-10T12:35:52.758Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MainWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\MainWindow.xaml",
-              "RelativeDocumentMoniker": "MainWindow.xaml",
-              "ToolTip": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\MainWindow.xaml",
-              "RelativeToolTip": "MainWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-06-10T22:25:45.041Z",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\MainWindow.xaml.cs",
+              "RelativeToolTip": "MainWindow.xaml.cs",
+              "ViewState": "AgIAAMwCAAAAAAAAAAAAANgCAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-02T12:58:27.598Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "CortexAV",
+              "DocumentMoniker": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\CortexAV.csproj",
+              "RelativeDocumentMoniker": "CortexAV.csproj",
+              "ToolTip": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\CortexAV.csproj",
+              "RelativeToolTip": "CortexAV.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-06-15T19:57:14.188Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "PythonEngineManager.cs",
+              "DocumentMoniker": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\Services\\PythonEngineManager.cs",
+              "RelativeDocumentMoniker": "Services\\PythonEngineManager.cs",
+              "ToolTip": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\Services\\PythonEngineManager.cs",
+              "RelativeToolTip": "Services\\PythonEngineManager.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAABIAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-15T15:10:45.051Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "App.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\App.xaml.cs",
+              "RelativeDocumentMoniker": "App.xaml.cs",
+              "ToolTip": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\App.xaml.cs",
+              "RelativeToolTip": "App.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-15T13:32:47.791Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "RealTimeMonitor.cs",
               "DocumentMoniker": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\Core\\RealTimeMonitor.cs",
               "RelativeDocumentMoniker": "Core\\RealTimeMonitor.cs",
               "ToolTip": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\Core\\RealTimeMonitor.cs",
               "RelativeToolTip": "Core\\RealTimeMonitor.cs",
-              "ViewState": "AgIAAFkAAAAAAAAAAAAuwBUAAAA8AAAAAAAAAA==",
+              "ViewState": "AgIAAKIAAAAAAAAAAAAAAJMAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-10T20:01:48.621Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ScanResponse.cs",
-              "DocumentMoniker": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\Models\\ScanResponse.cs",
-              "RelativeDocumentMoniker": "Models\\ScanResponse.cs",
-              "ToolTip": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\Models\\ScanResponse.cs",
-              "RelativeToolTip": "Models\\ScanResponse.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-10T20:01:02.686Z",
               "EditorCaption": ""
             },
             {
@@ -106,27 +150,14 @@
               "RelativeDocumentMoniker": "Services\\PythonScannerService.cs",
               "ToolTip": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\Services\\PythonScannerService.cs",
               "RelativeToolTip": "Services\\PythonScannerService.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA4AAABNAAAAAAAAAA==",
+              "ViewState": "AgIAADoAAAAAAAAAAAAAABUAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-10T19:56:22.13Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "history.json",
-              "DocumentMoniker": "C:\\Users\\tigan\\AppData\\Roaming\\CortexAV\\history.json",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\AppData\\Roaming\\CortexAV\\history.json",
-              "ToolTip": "C:\\Users\\tigan\\AppData\\Roaming\\CortexAV\\history.json",
-              "RelativeToolTip": "..\\..\\..\\..\\..\\AppData\\Roaming\\CortexAV\\history.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEkIAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-06-10T12:35:52.758Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 9,
               "Title": "FileHasher.cs",
               "DocumentMoniker": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\Core\\FileHasher.cs",
               "RelativeDocumentMoniker": "Core\\FileHasher.cs",
@@ -139,28 +170,65 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 1,
               "Title": "StorageManager.cs",
               "DocumentMoniker": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\Models\\StorageManager.cs",
               "RelativeDocumentMoniker": "Models\\StorageManager.cs",
               "ToolTip": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\Models\\StorageManager.cs",
               "RelativeToolTip": "Models\\StorageManager.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAIwJEAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAJYAAAAAAAAAAAAAACsAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-10T12:34:15.077Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\MainWindow.xaml.cs",
-              "RelativeDocumentMoniker": "MainWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\MainWindow.xaml.cs",
-              "RelativeToolTip": "MainWindow.xaml.cs",
-              "ViewState": "AgIAAKMBAAAAAAAAAADwv7UBAAARAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "MainWindow.xaml",
+              "ToolTip": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\MainWindow.xaml",
+              "RelativeToolTip": "MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-06-15T20:00:54.036Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "App.xaml",
+              "DocumentMoniker": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\App.xaml",
+              "RelativeDocumentMoniker": "App.xaml",
+              "ToolTip": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\App.xaml",
+              "RelativeToolTip": "App.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-06-15T16:07:04.569Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "CortexAV",
+              "DocumentMoniker": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\CortexAV.csproj",
+              "RelativeDocumentMoniker": "CortexAV.csproj",
+              "ToolTip": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\CortexAV.csproj",
+              "RelativeToolTip": "CortexAV.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-06-15T14:48:31.134Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ScanResponse.cs",
+              "DocumentMoniker": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\Models\\ScanResponse.cs",
+              "RelativeDocumentMoniker": "Models\\ScanResponse.cs",
+              "ToolTip": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\Models\\ScanResponse.cs",
+              "RelativeToolTip": "Models\\ScanResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-02T12:58:27.598Z",
+              "WhenOpened": "2026-06-10T20:01:02.686Z",
               "EditorCaption": ""
             }
           ]

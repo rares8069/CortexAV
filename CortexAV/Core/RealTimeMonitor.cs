@@ -142,6 +142,11 @@ namespace CortexAV.Core
 
                 StorageManager.SaveHistory(record);
 
+                if (response.Verdict == "Malware")
+                {
+                    StorageManager.AutoQuarantine(filePath);
+                }
+
                 OnFileScanned?.Invoke(this, record);
 
 

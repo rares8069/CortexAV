@@ -19,6 +19,7 @@ using System.IO.Enumeration;
 using System.Linq;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace CortexAV
 {
@@ -36,6 +37,7 @@ namespace CortexAV
         private ObservableCollection<string> _safeFilesUI= new ObservableCollection<string>();
         private ObservableCollection<string> _malwareFilesUI=new ObservableCollection<string>();
         private bool _isBatchScanning = false;
+        private bool _isDashBoardBusy = false;
 
         public MainWindow()
         {
@@ -57,8 +59,23 @@ namespace CortexAV
             Dispatcher.Invoke(() =>
             {
                 RefreshDataGrids();
-                MessageBox.Show($"Real-Time alert\n Detected {record.FileName}\nVerdict:{record.Verdict} ({record.ConfidenceScore:F2}%)", "CortexAV Monitor", MessageBoxButton.OK, MessageBoxImage.Information);
+                //MessageBox.Show($"Real-Time alert\n Detected {record.FileName}\nVerdict:{record.Verdict} ({record.ConfidenceScore:F2}%)", "CortexAV Monitor", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                if (this.WindowState == WindowState.Minimized && record.Verdict == "Malware")
+                {
+                    new ToastContentBuilder()
+                        .AddArgument("action", "viewQuarantine")
+                        .AddText("CortexAV - Threat Blocked Succesfully")
+                        .AddText($"Dangerous File:{record.FileName} was moved to Quarantine")
+                        .AddAudio(new Uri("ms-winsoundevent:Notification.Im"))
+                        .Show();
+
+                }
+
+
             });
+
+           
         }
 
         private void DropZone_DragEnter(object sender, DragEventArgs e)
@@ -74,6 +91,49 @@ namespace CortexAV
 
         }
 
+        protected override void OnStateChanged(EventArgs e)
+        {
+            base.OnStateChanged(e);
+            if (this.WindowState == WindowState.Minimized&& !_isDashBoardBusy)
+            {
+               // ResetInterfata();
+            }
+        }
+
+        private async Task StartSingleFileScanAsync(string filePath)
+        {
+            if (_isDashBoardBusy)
+            {
+                MessageBox.Show("One file is already being scanned.Please wait", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            _isDashBoardBusy = true;
+
+            _currentFilePath = filePath;
+            UploadPrompt.Visibility = Visibility.Collapsed;
+            ResultPanel.Visibility = Visibility.Visible;
+
+            // --- ASCUNDEM BUTONUL DE REFRESH AICI ---
+            if (BtnRefreshDashboard != null) BtnRefreshDashboard.Visibility = Visibility.Collapsed;
+
+            TxtVerdict.Text = "Scanning...";
+            TxtVerdict.Foreground = Brushes.Orange;
+            TxtScor.Text = "AI models are analyzing this file";
+            ActionButtons.Visibility = Visibility.Collapsed;
+
+            try
+            {
+                ScanResponse response = await _scannerService.AnalyzeFileAsync(_currentFilePath);
+                AfiseazaRezultat(response);
+                _isDashBoardBusy = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "AI Engine Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                ResetInterfata();
+            }
+        }
+
         private async void DropZone_Drop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -82,31 +142,45 @@ namespace CortexAV
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
                 if (files.Length > 0)
                 {
-                    _currentFilePath = files[0];//get dropped file
-                    //UI SCANNING SCREEN
-                    UploadPrompt.Visibility = Visibility.Collapsed;
-                    ResultPanel.Visibility = Visibility.Visible;
-                    TxtVerdict.Text = "Scanning";
-                    TxtVerdict.Foreground = Brushes.Orange;
-                    TxtScor.Text = "AI models are analyzing this file";
-                    ActionButtons.Visibility = Visibility.Collapsed;
-
-                    try
-                    {
-                        ScanResponse response = await _scannerService.AnalyzeFileAsync(_currentFilePath);
-                        AfiseazaRezultat(response);
-
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "AI Engine Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        ResetInterfata();
-                    }
-
-
-
+                    //_currentFilePath = files[0];//get dropped file
+                    await StartSingleFileScanAsync(files[0]);
                 }
 
+            }
+
+
+        }
+
+
+
+        public async void ProcessExternalFile(string filePath)
+        {
+
+
+            ViewDashboard.Visibility = Visibility.Visible;
+            ViewHistory.Visibility = Visibility.Collapsed;
+            ViewWhitelist.Visibility = Visibility.Collapsed;
+            ViewMonitor.Visibility = Visibility.Collapsed;
+            ViewCustomScan.Visibility = Visibility.Collapsed;
+            ViewQuarantine.Visibility = Visibility.Collapsed;
+
+            if (this.WindowState == WindowState.Minimized)
+            {
+                this.WindowState = WindowState.Normal;
+            }
+            this.Activate();
+            this.Topmost = true;
+            this.Topmost = false;
+            this.Focus();
+
+            string ext = System.IO.Path.GetExtension(filePath).ToLower();
+            if (ext != null)
+            {
+                await StartSingleFileScanAsync(filePath);
+            }
+            else
+            {
+                MessageBox.Show("There was an error when processing this file","Error",MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
 
@@ -153,6 +227,7 @@ namespace CortexAV
             ViewWhitelist.Visibility = Visibility.Collapsed;
             ViewMonitor.Visibility = Visibility.Collapsed;
             ViewCustomScan.Visibility = Visibility.Collapsed;
+            ViewQuarantine.Visibility = Visibility.Collapsed;
             //RefreshDataGrids();
 
         }
@@ -164,6 +239,7 @@ namespace CortexAV
             ViewWhitelist.Visibility = Visibility.Collapsed;
             ViewMonitor.Visibility = Visibility.Collapsed;
             ViewCustomScan.Visibility = Visibility.Collapsed;
+            ViewQuarantine.Visibility = Visibility.Collapsed;
             RefreshDataGrids();
         }
 
@@ -174,6 +250,7 @@ namespace CortexAV
             ViewWhitelist.Visibility = Visibility.Visible;
             ViewMonitor.Visibility = Visibility.Collapsed;
             ViewCustomScan.Visibility = Visibility.Collapsed;
+            ViewQuarantine.Visibility = Visibility.Collapsed;
             RefreshDataGrids();
         }
 
@@ -185,6 +262,7 @@ namespace CortexAV
             ViewHistory.Visibility = Visibility.Collapsed;
             ViewMonitor.Visibility = Visibility.Visible;
             ViewCustomScan.Visibility = Visibility.Collapsed;
+            ViewQuarantine.Visibility = Visibility.Collapsed;
             RefreshDataGrids();
 
         }
@@ -196,8 +274,21 @@ namespace CortexAV
             ViewHistory.Visibility = Visibility.Collapsed;
             ViewMonitor.Visibility = Visibility.Collapsed;
             ViewCustomScan.Visibility = Visibility.Visible;
+            ViewQuarantine.Visibility = Visibility.Collapsed;
             RefreshDataGrids();
 
+        }
+
+        private void BtnMenuQuarantine_Click(object sender, RoutedEventArgs e)
+        {
+
+            ViewDashboard.Visibility = Visibility.Collapsed;
+            ViewWhitelist.Visibility = Visibility.Collapsed;
+            ViewHistory.Visibility = Visibility.Collapsed;
+            ViewMonitor.Visibility = Visibility.Collapsed;
+            ViewCustomScan.Visibility = Visibility.Collapsed;
+            ViewQuarantine.Visibility = Visibility.Visible;
+            RefreshDataGrids();
         }
 
         private void RefreshDataGrids()
@@ -219,6 +310,12 @@ namespace CortexAV
             {
                 ListFolders.ItemsSource = null;
                 ListFolders.ItemsSource = StorageManager.MonitoredFolders;//.ToArray().Reverse();
+            }
+
+            if (GridQuarantine != null) { 
+
+                GridQuarantine.ItemsSource = null;
+                GridQuarantine.ItemsSource=StorageManager.QuarantinedFiles.ToArray().Reverse();
             }
         }
 
@@ -340,38 +437,115 @@ namespace CortexAV
 
         }
 
-        private async void BtnSelectFilesToScan_Click(object sender, RoutedEventArgs e)
+        private void BtnRestoreQuarantine_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog dialog = new OpenFileDialog
+            if(GridQuarantine.SelectedItem is QuarantinedItem selectedItem)
             {
-                Multiselect =true,
-                Title="Select Files to scan ",
-                Filter="Executabile (*.exe;*.dll;*.sys)|*.exe;*.dll;*.sys|Toate fisierele(*.*)|*.*"
-            };
+                var result = MessageBox.Show($"Do you want to restore {selectedItem.FileName} ?", "Security", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
-            if (dialog.ShowDialog() == true)
-            {
-
-                BtnSelectFilesToScan.IsEnabled = false;
-                BtnSelectFilesToScan.Content = "Scanning..";
-
-                foreach(string filePath in dialog.FileNames)
+                if (result == MessageBoxResult.Yes)
                 {
-                    if (!_scanQueueUI.Contains(filePath))
+                    try
                     {
-                        _scanQueueUI.Add(filePath);
+
+                        string originalDirectory = System.IO.Path.GetDirectoryName(selectedItem.OriginalPath);
+                        if (!Directory.Exists(originalDirectory))
+                        {
+                            Directory.CreateDirectory(originalDirectory);
+                        }
+
+                        if (File.Exists(selectedItem.QuarantinedPath))
+                        {
+                            File.Move(selectedItem.QuarantinedPath, selectedItem.OriginalPath);
+                            StorageManager.RemoveFromQuarantineLog(selectedItem.QuarantinedPath);
+                            MessageBox.Show("File was restored succesfuly","Information",MessageBoxButton.OK,MessageBoxImage.Information);
+                            RefreshDataGrids();
+                        }
+                        else
+                        {
+                            MessageBox.Show("File no longer in Quarantine","Error",MessageBoxButton.OK, MessageBoxImage.Warning);
+                            StorageManager.RemoveFromQuarantineLog(selectedItem.QuarantinedPath);
+                            RefreshDataGrids();
+                        }
+
                     }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"There was an error trying to restore {ex.Message} ","Error ",MessageBoxButton.OK,MessageBoxImage.Error);
+                    }
+
+
+
                 }
 
-                await ProcessBatchQueueAsync();
-                //_isBatchScanning = true;
-                //Task.Run(() => ProcessBatchQueueAsync());
-                BtnSelectFilesToScan.IsEnabled = true;
-                BtnSelectFilesToScan.Content = "Select File(s)";
+            }
+            else
+            {
+                MessageBox.Show("Select a file from the list", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
+        }
+
+        private void BtnDeleteQuarantine_Click(object sender, EventArgs e)
+        {
+            if(GridQuarantine.SelectedItem is QuarantinedItem selectedItem)
+            {
+                var result=MessageBox.Show($"Are you sure that you want to delete {selectedItem.FileName}.This action cannot be undone","Delete",MessageBoxButton.YesNo,MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    if (File.Exists(selectedItem.QuarantinedPath))
+                    {
+                        File.Delete(selectedItem.QuarantinedPath);
+                    }
+
+                    StorageManager.RemoveFromQuarantineLog(selectedItem.QuarantinedPath);
+                    RefreshDataGrids();
+
+                }
 
             }
+            else
+            {
+                MessageBox.Show("Please select a file from the list", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
         }
-       
+
+        private async void BtnSelectFilesToScan_Click(object sender, RoutedEventArgs e)
+        {
+            // AICI E SECRETUL: Prindem butonul pe care ai dat click!
+            if (sender is Button clickedButton)
+            {
+                OpenFileDialog dialog = new OpenFileDialog
+                {
+                    Multiselect = true,
+                    Title = "Select Files to scan ",
+                    Filter = "Executabile (*.exe;*.dll;*.sys)|*.exe;*.dll;*.sys|Toate fisierele(*.*)|*.*"
+                };
+
+                if (dialog.ShowDialog() == true)
+                {
+                    // NU mai folosim "BtnSelectFilesToScan", folosim direct "clickedButton"
+                    clickedButton.IsHitTestVisible = false;
+                    clickedButton.Content = "Scanning..";
+
+                    foreach (string filePath in dialog.FileNames)
+                    {
+                        if (!_scanQueueUI.Contains(filePath))
+                        {
+                            _scanQueueUI.Add(filePath);
+                        }
+                    }
+
+                    await ProcessBatchQueueAsync();
+
+                    clickedButton.IsHitTestVisible = true;
+                    clickedButton.Content = "Selectează Fișiere...";
+                }
+            }
+        }
+
         private async Task ProcessBatchQueueAsync()
         {
             _isBatchScanning = true;
@@ -413,6 +587,11 @@ namespace CortexAV
 
                         };
                         StorageManager.SaveHistory(record);
+
+                        if (response.Verdict == "Malware")
+                        {
+                            StorageManager.AutoQuarantine(currentFile);
+                        }
                     }
 
                     Dispatcher.Invoke(()
@@ -425,7 +604,7 @@ namespace CortexAV
                             _safeFilesUI.Add($"Fisier Exceptat {displayItem}");
                         }else if(response!=null && response.Verdict == "Malware")
                         {
-                            _malwareFilesUI.Add($"{displayItem}:{response.Verdict} ");
+                            _malwareFilesUI.Add($"{displayItem}:{response.Verdict} File was succesfuly moved to quarantine");
                         }else
                         {
                             _safeFilesUI.Add($"{displayItem}: {response?.ConfidenceScore:F1}%");
@@ -452,7 +631,6 @@ namespace CortexAV
 
         private void AfiseazaRezultat(ScanResponse response)
         {
-
             TxtScor.Text = $"Trust Score:{response.ConfidenceScore.ToString("F2")}% \nDetalii: {response.Details}";
 
             if (response.Verdict.Equals("Malware", StringComparison.OrdinalIgnoreCase))
@@ -460,8 +638,6 @@ namespace CortexAV
                 TxtVerdict.Text = "Malware Detected!";
                 TxtVerdict.Foreground = Brushes.Red;
                 ActionButtons.Visibility = Visibility.Visible;
-
-
             }
             else
             {
@@ -470,18 +646,19 @@ namespace CortexAV
                 ActionButtons.Visibility = Visibility.Collapsed;
             }
 
-            var fileInfo = new System.IO.FileInfo(_currentFilePath);
-            StorageManager.SaveHistory(new ScanRecord 
-            {
+            // --- AFIȘĂM BUTONUL DE REFRESH AICI (pentru ambele cazuri) ---
+            if (BtnRefreshDashboard != null) BtnRefreshDashboard.Visibility = Visibility.Visible;
 
+            var fileInfo = new System.IO.FileInfo(_currentFilePath);
+            StorageManager.SaveHistory(new ScanRecord
+            {
                 ScanDate = DateTime.Now,
                 FileName = fileInfo.Name,
-                FilePath=fileInfo.FullName,
-                FileType=fileInfo.Extension,
-                Verdict=response.Verdict,
-                ConfidenceScore=response.ConfidenceScore
+                FilePath = fileInfo.FullName,
+                FileType = fileInfo.Extension,
+                Verdict = response.Verdict,
+                ConfidenceScore = response.ConfidenceScore
             });
-
         }
 
         private void Delete_Click(object sender, EventArgs e)
@@ -518,24 +695,31 @@ namespace CortexAV
                 }
 
                 string numeFisier = System.IO.Path.GetFileName(_currentFilePath);
-                string destinatie = System.IO.Path.Combine(folderCarantina, numeFisier + ".cortex");//extension
+                string codUnic = Guid.NewGuid().ToString().Substring(0, 8);
+                string destinatie = System.IO.Path.Combine(folderCarantina, $"{numeFisier}_{codUnic}.cortex");
+                if (File.Exists(_currentFilePath)) {
 
-                if (File.Exists(_currentFilePath))
-                {
-                    File.Move(_currentFilePath, destinatie);
-                    MessageBox.Show($"File was send to Quarantine succesfully","OK" ,MessageBoxButton.OK, MessageBoxImage.Information);
+                File.Move(_currentFilePath, destinatie);
+                    var qItem = new QuarantinedItem
+                    {
+                        FileName=numeFisier,
+                        OriginalPath=_currentFilePath,
+                        QuarantinedPath=destinatie,
+                        QuarantineDate=DateTime.Now
+                    };
+
+                    StorageManager.SaveToQuarantine(qItem);
+                    MessageBox.Show("File was succesfully moved to quarantine", "Security", MessageBoxButton.OK, MessageBoxImage.Information);
                     ResetInterfata();
                 }
-
-
 
             }
             catch (Exception ex)
             {
-
-                MessageBox.Show($"There was an error when moving the file","Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-
+                MessageBox.Show($"Error moving a file to quarantine{ex.Message}","Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+
+            
         }
 
         private void BtnReset_Click(object sender, RoutedEventArgs e) => ResetInterfata();
@@ -545,6 +729,7 @@ namespace CortexAV
             UploadPrompt.Visibility = Visibility.Visible;
             ResultPanel.Visibility = Visibility.Collapsed;
             _currentFilePath = string.Empty;
+            _isDashBoardBusy = false;
         }
 
 

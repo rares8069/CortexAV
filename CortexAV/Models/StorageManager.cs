@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.IO;
 using System.Runtime;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 
 namespace CortexAV.Core
@@ -31,15 +32,27 @@ namespace CortexAV.Core
 
     }
 
+    public class QuarantinedItem
+    {
+
+        public string FileName { get; set; }
+        public string OriginalPath { get; set;  }
+        public string QuarantinedPath {  get; set; }
+        public DateTime QuarantineDate {  get; set; }
+    }
+
     public static class StorageManager
     {
         private static readonly string AppDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "CortexAV");
         private static readonly string HistoryFile = Path.Combine(AppDataFolder, "history.json");
         private static readonly string WhitelistFile = Path.Combine(AppDataFolder, "whitelist.json");
         private static readonly string MonitoredFoldersFile = Path.Combine(AppDataFolder, "monitored_folders.json");
+        private static readonly string QuarantineLogFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "quarantine_log.json");
         public static List<string> MonitoredFolders { get; set; } = new List<string>();
         public static List<ScanRecord> ScanHistory { get; set; } = new List<ScanRecord>();
         public static List<AllowedThreat> Whitelist { get; set; } = new List<AllowedThreat>();
+        public static List<QuarantinedItem> QuarantinedFiles { get; set; } = new List<QuarantinedItem>();
+
 
         private static readonly object _historyLock = new object();
         private static readonly object _whitelistLock = new object();
@@ -129,6 +142,11 @@ namespace CortexAV.Core
                 MonitoredFolders.Add(downloadsPath);
                 SaveMonitoredFolders();
             }
+            if (File.Exists(QuarantineLogFile))
+            {
+                string json = File.ReadAllText(QuarantineLogFile);
+                QuarantinedFiles = JsonSerializer.Deserialize<List<QuarantinedItem>>(json) ?? new List<QuarantinedItem>();
+            }
 
         }
 
@@ -168,6 +186,73 @@ namespace CortexAV.Core
                     File.WriteAllText(WhitelistFile, JsonSerializer.Serialize(Whitelist, new JsonSerializerOptions { WriteIndented = true }));
                 }
             }
+        }
+
+        public static void SaveToQuarantine ( QuarantinedItem item)
+        {
+            lock (_historyLock)
+            {
+                QuarantinedFiles.Add(item);
+                File.WriteAllText(QuarantineLogFile, JsonSerializer.Serialize(QuarantinedFiles, new JsonSerializerOptions { WriteIndented = true }));
+
+            }
+        }
+
+        public static void RemoveFromQuarantineLog(string quarantinedPath)
+        {
+            lock (_historyLock)
+            {
+                var item=QuarantinedFiles.FirstOrDefault(q => q.QuarantinedPath == quarantinedPath);
+                if(item != null)
+                {
+                    QuarantinedFiles.Remove(item);
+                    File.WriteAllText(QuarantineLogFile,JsonSerializer.Serialize(QuarantinedFiles,new JsonSerializerOptions { WriteIndented = true }));
+                }
+            }
+        }
+
+        public static void AutoQuarantine(string filePath)
+        {
+            try
+            {
+                if (!File.Exists(filePath))
+                {
+
+                    return;
+                }
+
+                string folderCarantina = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Quarantine");
+                if (!Directory.Exists(folderCarantina))
+                {
+
+                    Directory.CreateDirectory(folderCarantina);
+
+                }
+
+                string numeFisier = Path.GetFileName(filePath);
+                string codUnic = Guid.NewGuid().ToString().Substring(0, 8);
+                string destinatie = Path.Combine(folderCarantina, $"{numeFisier}_{codUnic}.cortex");
+
+                File.Move(filePath, destinatie);
+
+                var qItem = new QuarantinedItem
+                {
+                    FileName=numeFisier,
+                    OriginalPath=filePath,
+                    QuarantinedPath=destinatie,
+                    QuarantineDate=DateTime.Now
+                };
+
+                SaveToQuarantine(qItem);
+
+            }
+            catch(Exception ex)
+            {
+
+                Console.WriteLine("Error moving a file");
+
+            }
+
         }
 
     }

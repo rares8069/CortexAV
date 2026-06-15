@@ -1,0 +1,62 @@
+[
+  {
+    "FileName": "fisiere1.jpg",
+    "OriginalPath": "D:\\fisiere1.jpg",
+    "QuarantinedPath": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\bin\\Debug\\net8.0-windows\\Quarantine\\fisiere1.jpg_4ca4e732.cortex",
+    "QuarantineDate": "2026-06-15T16:07:55.7536389+03:00"
+  },
+  {
+    "FileName": "AutoHotkey_2.0.26_User_X64_exe_en-US.exe",
+    "OriginalPath": "C:\\Users\\tigan\\Downloads\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe",
+    "QuarantinedPath": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\bin\\Debug\\net8.0-windows\\Quarantine\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe_134d169d.cortex",
+    "QuarantineDate": "2026-06-15T16:07:56.6728831+03:00"
+  },
+  {
+    "FileName": "AutoHotkey_2.0.26_User_X64_exe_en-US.exe",
+    "OriginalPath": "C:\\Users\\tigan\\Desktop\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe",
+    "QuarantinedPath": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\bin\\Debug\\net8.0-windows\\Quarantine\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe_79d737ea.cortex",
+    "QuarantineDate": "2026-06-15T16:10:31.6895886+03:00"
+  },
+  {
+    "FileName": "AutoHotkey_2.0.26_User_X64_exe_en-US.exe",
+    "OriginalPath": "C:\\Users\\tigan\\Desktop\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe",
+    "QuarantinedPath": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\bin\\Debug\\net8.0-windows\\Quarantine\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe_bc2cf471.cortex",
+    "QuarantineDate": "2026-06-15T16:11:59.950992+03:00"
+  },
+  {
+    "FileName": "ecposi3333.jpg",
+    "OriginalPath": "D:\\ecposi3333.jpg",
+    "QuarantinedPath": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\bin\\Debug\\net8.0-windows\\Quarantine\\ecposi3333.jpg_d9cfa986.cortex",
+    "QuarantineDate": "2026-06-15T16:24:35.5642769+03:00"
+  },
+  {
+    "FileName": "elsdsa4444.jpg",
+    "OriginalPath": "D:\\elsdsa4444.jpg",
+    "QuarantinedPath": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\bin\\Debug\\net8.0-windows\\Quarantine\\elsdsa4444.jpg_724da637.cortex",
+    "QuarantineDate": "2026-06-15T16:24:35.7461876+03:00"
+  },
+  {
+    "FileName": "file2.jpg",
+    "OriginalPath": "D:\\file2.jpg",
+    "QuarantinedPath": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\bin\\Debug\\net8.0-windows\\Quarantine\\file2.jpg_e41d9dab.cortex",
+    "QuarantineDate": "2026-06-15T16:24:35.9366166+03:00"
+  },
+  {
+    "FileName": "AutoHotkey_2.0.26_User_X64_exe_en-US.exe",
+    "OriginalPath": "C:\\Users\\tigan\\Desktop\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe",
+    "QuarantinedPath": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\bin\\Debug\\net8.0-windows\\Quarantine\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe_2172dc08.cortex",
+    "QuarantineDate": "2026-06-15T16:25:17.0387084+03:00"
+  },
+  {
+    "FileName": "AutoHotkey_2.0.26_User_X64_exe_en-US.exe",
+    "OriginalPath": "C:\\Users\\tigan\\Desktop\\Test\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe",
+    "QuarantinedPath": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\bin\\Debug\\net8.0-windows\\Quarantine\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe_94332069.cortex",
+    "QuarantineDate": "2026-06-15T17:36:46.868548+03:00"
+  },
+  {
+    "FileName": "AutoHotkey_2.0.26_User_X64_exe_en-US.exe",
+    "OriginalPath": "C:\\Users\\tigan\\Desktop\\Test\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe",
+    "QuarantinedPath": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\bin\\Debug\\net8.0-windows\\Quarantine\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe_f9c16bad.cortex",
+    "QuarantineDate": "2026-06-15T18:07:10.1679992+03:00"
+  }
+]

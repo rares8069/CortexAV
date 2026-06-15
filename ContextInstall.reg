@@ -1,0 +1,8 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\*\shell\CortexAV]
+@="Scan with CortexAV"
+"Icon"="C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\bin\\Debug\\net8.0-windows10.0.19041.0\\CortexAV.exe"
+
+[HKEY_CLASSES_ROOT\*\shell\CortexAV\command]
+@="\"C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\bin\\Debug\\net8.0-windows10.0.19041.0\\CortexAV.exe\" \"%1\""

@@ -24,6 +24,7 @@
                 <Button Content="Excepții (Whitelist)" Background="Transparent" Foreground="Gray" BorderThickness="0" Height="40" Margin="0,5" FontSize="14" HorizontalContentAlignment="Left" Padding="15,0,0,0" Click="BtnMenuWhitelist_Click"/>
                 <Button Content="Protecție Real-Time" Background="Transparent" Foreground="Gray" BorderThickness="0" Height="40" Margin="0,5" FontSize="14" HorizontalContentAlignment="Left" Padding="15,0,0,0" Click="BtnMenuMonitor_Click"/>
                 <Button Content="File Scanning" Background="Transparent" Foreground="Gray" BorderThickness="0" Height="40" Margin="0,5" FontSize="14" HorizontalContentAlignment="Left" Padding="15,0,0,0" Click="BtnMenuCustomScan_Click"/>
+                <Button Content="Carantină" Background="Transparent" Foreground="Gray" BorderThickness="0" Height="40" Margin="0,5" FontSize="14" HorizontalContentAlignment="Left" Padding="15,0,0,0" Click="BtnMenuQuarantine_Click"/>
             </StackPanel>
         </Border>
 
@@ -66,7 +67,8 @@
                                 <Button Content="Iartă (Whitelist)" Background="#00ADB5" Foreground="White" Width="110" Height="35" Margin="5" BorderThickness="0" Click="AllowThreat_Click"/>
                             </StackPanel>
 
-                            <Button x:Name="BtnSelectFilesToScan" Content="Scan another file" Background="#333333" Foreground="White" Width="150" Height="30" Margin="0,20,0,0" BorderThickness="0" Click="BtnSelectFilesToScan_Click"/>
+                            <Button x:Name="BtnRefreshDashboard" Content="🔄 Refresh" Background="#333333" Foreground="White" Width="120" Height="30" Margin="0,20,0,0" BorderThickness="0" Cursor="Hand" Click="BtnReset_Click"/>
+                        
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -203,6 +205,34 @@
                         </Grid>
                     </Border>
                 </Grid>
+            </Grid>
+            <Grid x:Name="ViewQuarantine" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Carantină (Fișiere Izolate)" FontSize="22" FontWeight="Bold" Foreground="#00ADB5" VerticalAlignment="Center"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <Button Content="Restaurează Fișier" Background="#00ADB5" Foreground="White" BorderThickness="0" Padding="15,5" Margin="0,0,10,0" Cursor="Hand" Click="BtnRestoreQuarantine_Click"/>
+                        <Button Content="Șterge Definitiv" Background="#D9534F" Foreground="White" BorderThickness="0" Padding="15,5" Cursor="Hand" Click="BtnDeleteQuarantine_Click"/>
+                    </StackPanel>
+                </Grid>
+
+                <DataGrid x:Name="GridQuarantine" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" 
+                          Background="White" RowBackground="White" AlternatingRowBackground="#F0F0F0" Foreground="Black"
+                          SelectionMode="Single">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Data Izolării" Binding="{Binding QuarantineDate, StringFormat=\{0:dd/MM/yyyy HH:mm\}}" Width="130"/>
+                        <DataGridTextColumn Header="Nume Fișier" Binding="{Binding FileName}" Width="150"/>
+                        <DataGridTextColumn Header="Locație Originală" Binding="{Binding OriginalPath}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </Grid>
 
         </Grid>
