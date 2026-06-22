@@ -571,7 +571,7 @@ namespace CortexAV
 
                     bool isWhitelisted=(hash!=null&&StorageManager.IsFileAllowed(fileInfo.Name,fileInfo.Length,hash));
                     ScanResponse response = null;
-
+                    //Whitelist check
                     if (!isWhitelisted)
                     {
 
@@ -593,7 +593,7 @@ namespace CortexAV
                             StorageManager.AutoQuarantine(currentFile);
                         }
                     }
-
+                    //UI Update
                     Dispatcher.Invoke(()
                         =>
                     {

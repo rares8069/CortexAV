@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CortexAV")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f8a1c93c3454d4466ef51ad6b33ed85acec7260d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ef672a37b9d8c385f7bae70ac7c2d1b7cb933768")]
 [assembly: System.Reflection.AssemblyProductAttribute("CortexAV")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CortexAV")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

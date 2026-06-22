@@ -58,5 +58,35 @@
     "OriginalPath": "C:\\Users\\tigan\\Desktop\\Test\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe",
     "QuarantinedPath": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\bin\\Debug\\net8.0-windows10.0.19041.0\\Quarantine\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe_63bb7e1d.cortex",
     "QuarantineDate": "2026-06-15T23:20:58.2833621+03:00"
+  },
+  {
+    "FileName": "AutoHotkey_2.0.26_User_X64_exe_en-US.exe",
+    "OriginalPath": "C:\\Users\\tigan\\Desktop\\Test\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe",
+    "QuarantinedPath": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\bin\\Debug\\net8.0-windows10.0.19041.0\\Quarantine\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe_1c43d16d.cortex",
+    "QuarantineDate": "2026-06-18T02:03:39.6858295+03:00"
+  },
+  {
+    "FileName": "AutoHotkey_2.0.26_User_X64_exe_en-US.exe",
+    "OriginalPath": "C:\\Users\\tigan\\Desktop\\Test\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe",
+    "QuarantinedPath": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\bin\\Debug\\net8.0-windows10.0.19041.0\\Quarantine\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe_48e2aa80.cortex",
+    "QuarantineDate": "2026-06-18T02:13:18.5614863+03:00"
+  },
+  {
+    "FileName": "AutoHotkey_2.0.26_User_X64_exe_en-US.exe",
+    "OriginalPath": "C:\\Users\\tigan\\Desktop\\Test\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe",
+    "QuarantinedPath": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\bin\\Debug\\net8.0-windows10.0.19041.0\\Quarantine\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe_fc5102d5.cortex",
+    "QuarantineDate": "2026-06-18T02:16:22.3881761+03:00"
+  },
+  {
+    "FileName": "AutoHotkey_2.0.26_User_X64_exe_en-US.exe",
+    "OriginalPath": "C:\\Users\\tigan\\Desktop\\Test\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe",
+    "QuarantinedPath": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\bin\\Debug\\net8.0-windows10.0.19041.0\\Quarantine\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe_be54bd1e.cortex",
+    "QuarantineDate": "2026-06-18T12:23:14.0208708+03:00"
+  },
+  {
+    "FileName": "AutoHotkey_2.0.26_User_X64_exe_en-US.exe",
+    "OriginalPath": "C:\\Users\\tigan\\Desktop\\Test\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe",
+    "QuarantinedPath": "C:\\Users\\tigan\\Documents\\GitHub\\Licenta\\CortexAV\\CortexAV\\bin\\Debug\\net8.0-windows10.0.19041.0\\Quarantine\\AutoHotkey_2.0.26_User_X64_exe_en-US.exe_7297e62d.cortex",
+    "QuarantineDate": "2026-06-18T12:27:51.107951+03:00"
   }
 ]
